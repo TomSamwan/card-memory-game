@@ -1,14 +1,8 @@
-export default function Card({
-  pokemon,
-  index,
-  pokemonList,
-  setPokemonList,
-  score,
-  setScore,
-  guesses,
-  setGuesses,
-}) {
-  
+export default function Card(props) {
+  const { pokemon, index } = props;
+  const { pokemonList, setPokemonList, score, setScore, guesses, setGuesses } =
+    props.states;
+
   function completed() {
     if (score == pokemonList.length) {
       setTimeout(() => {
