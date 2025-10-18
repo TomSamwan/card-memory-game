@@ -1,0 +1,55 @@
+.game-board {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  gap: 1rem;
+}
+
+.card {
+  display: flex;
+  flex-basis: 50px;
+  flex-grow: 1;
+  flex-shrink: 1;
+  flex-direction: column;
+  align-items: center;
+  align-content: stretch;
+  padding: 0.5rem 1rem;
+  background: hsl(188, 61%, 50%);
+  border: solid 2px hsl(188, 61%, 40%);
+  border-radius: 0.5rem;
+  box-shadow: 0 0 8px 0  hsl(188, 61%, 50%);
+
+  transition: all 0.1s ease-out;
+
+  &:hover {
+    scale: 1.025;
+  }
+
+  & p {
+    font-weight: 700;
+    font-size: 0.75rem;
+  }
+
+  & img {
+    width: 100%;
+  }
+
+}
+
+@media (min-width: 500px) {
+  .game-board {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(16px, 200px));
+    grid-auto-rows: auto;
+  }
+
+  .card p {
+    font-size: 1rem;
+  }
+}
+
+@media (min-width: 800px) {
+  .card p {
+    font-size: 1.25rem;
+  }
+}

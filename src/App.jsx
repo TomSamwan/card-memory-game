@@ -1,35 +1,58 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useEffect, useState } from "react";
+import GameBoard from "./components/GameBoard";
+import "./App.css";
+import "../styles/Card.css";
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [pokemonList, setPokemonList] = useState([]);
+  const [guesses, setGuesses] = useState([]);
+  const [score, setScore] = useState(0);
+
+  useEffect(() => {
+    fetch("https://pokeapi.co/api/v2/generation/1")
+      .then((response) => response.json())
+      .then(async (data) => {
+        const speciesList = data.pokemon_species.slice(0, 10);
+
+        const pokemonDataPromises = speciesList.map(async (species) => {
+          const res = await fetch(
+            `https://pokeapi.co/api/v2/pokemon/${species.name}`
+          );
+          const pokemonData = await res.json();
+
+          return {
+            name: species.name,
+            sprite: pokemonData.sprites.front_default,
+          };
+        });
+
+        const fullData = await Promise.all(pokemonDataPromises);
+
+        setPokemonList(fullData);
+      })
+      .catch((err) => console.log(err));
+  }, []);
 
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+    <div className="wrapper">
+      <h1>Card Memory Game!</h1>
+      <div className="game-score">
+        <p>game score: {score}</p>
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+      {pokemonList[pokemonList.length - 1] ? (
+        <GameBoard
+          pokemonList={pokemonList}
+          setPokemonList={setPokemonList}
+          guesses={guesses}
+          setGuesses={setGuesses}
+          score={score}
+          setScore={setScore}
+        />
+      ) : (
+        "loading"
+      )}
+    </div>
+  );
 }
 
-export default App
+export default App;
