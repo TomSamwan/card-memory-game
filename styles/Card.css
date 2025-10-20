@@ -1,7 +1,8 @@
 .game-board {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-around;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+  align-content: center;
+  grid-auto-rows: auto;
   gap: 1rem;
 }
 
@@ -27,7 +28,7 @@
 
   & p {
     font-weight: 700;
-    font-size: 0.75rem;
+    font-size: 0.5rem;
   }
 
   & img {
@@ -37,18 +38,15 @@
 }
 
 @media (min-width: 500px) {
-  .game-board {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(16px, 200px));
-    grid-auto-rows: auto;
-  }
-
   .card p {
     font-size: 1rem;
   }
 }
 
-@media (min-width: 800px) {
+@media (min-width: 700px) {
+  .game-board {
+    grid-template-columns: repeat(5, 1fr);
+  }
   .card p {
     font-size: 1.25rem;
   }
